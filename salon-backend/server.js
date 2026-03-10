@@ -22,6 +22,8 @@ const staffAvailabilityRoutes = require("./routes/staffAvailabilityRoutes");
 const slotRoutes = require("./routes/slotRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const reviewResponseRoutes = require("./routes/reviewResponseRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const authMiddleware = require("./middleware/authMiddleware");
 
 require("dotenv").config();
 
@@ -41,12 +43,25 @@ app.use("/api/staff-availability", staffAvailabilityRoutes);
 app.use("/api/slots", slotRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/review-response", reviewResponseRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send("Salon Booking API Running");
 });
+
+// User ↔ Appointment
+User.hasMany(Appointment, { foreignKey: "UserId" });
+Appointment.belongsTo(User, { foreignKey: "UserId" });
+
+// Service ↔ Appointment
+Service.hasMany(Appointment, { foreignKey: "ServiceId" });
+Appointment.belongsTo(Service, { foreignKey: "ServiceId" });
+
+// Staff ↔ Appointment
+Staff.hasMany(Appointment, { foreignKey: "StaffId" });
+Appointment.belongsTo(Staff, { foreignKey: "StaffId" });
 
 sequelize
   .sync()

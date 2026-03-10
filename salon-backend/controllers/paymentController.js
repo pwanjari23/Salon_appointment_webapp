@@ -1,5 +1,9 @@
 const axios = require("axios");
 const Payment = require("../models/Payment");
+const generateInvoice = require("../services/invoiceService");
+const Appointment = require("../models/Appointment");
+const User = require("../models/User");
+const Service = require("../models/Service");
 require("dotenv").config();
 
 exports.createOrder = async (req, res) => {
@@ -71,24 +75,42 @@ exports.verifyPayment = async (req, res) => {
       return res.status(404).json({ message: "Payment not found" });
     }
 
-    if (orderStatus === "PAID") {
-      payment.status = "paid";
-      await payment.save();
-
-      await Appointment.update(
-        { status: "confirmed" },
-        { where: { id: payment.appointmentId } },
-      );
-
+    if (payment.status === "paid") {
       return res.json({
-        message: "Payment verified and appointment confirmed",
+        message: "Payment already verified",
       });
-    } else {
+    }
+
+    if (orderStatus !== "PAID") {
       return res.json({
         message: "Payment not completed",
         status: orderStatus,
       });
     }
+
+    const appointment = await Appointment.findByPk(payment.appointmentId, {
+      include: [User, Service],
+    });
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    const user = appointment.User;
+    const service = appointment.Service;
+
+    payment.status = "paid";
+    await payment.save();
+
+    appointment.status = "confirmed";
+    await appointment.save();
+
+    const invoicePath = generateInvoice(appointment, user, service);
+
+    return res.json({
+      message: "Payment verified, appointment confirmed, invoice generated",
+      invoicePath,
+    });
   } catch (error) {
     res.status(500).json({
       error: error.response?.data || error.message,
