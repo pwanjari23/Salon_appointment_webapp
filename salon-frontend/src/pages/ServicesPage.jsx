@@ -10,6 +10,7 @@ import {
   User,
 } from "lucide-react";
 import HorizontalCalendar from "../components/HorizontalCalendar";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ServicesPage = () => {
   const [step, setStep] = useState(1);
@@ -30,6 +31,20 @@ const ServicesPage = () => {
     fetchServices();
     fetchStaff();
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleLandingPage = () => {
+    navigate("/");
+  };
+
+  const handleBackClick = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    } else {
+      handleLandingPage();
+    }
+  };
 
   const fetchServices = async () => {
     try {
@@ -113,7 +128,7 @@ const ServicesPage = () => {
       {/* HEADER */}
       <header className="fixed top-0 w-full bg-white z-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
         <button
-          onClick={() => step > 1 && setStep(step - 1)}
+          onClick={handleBackClick}
           className="p-2 hover:bg-slate-50 rounded-full"
         >
           <ArrowLeft size={20} className="text-slate-600" />
@@ -141,9 +156,8 @@ const ServicesPage = () => {
           {step === 1 && (
             <div>
               <h1 className="text-[32px] font-bold tracking-tight mb-8">
-                
                 Select services
-              </h1> 
+              </h1>
 
               <div className="space-y-3">
                 {services.map((service) => (
