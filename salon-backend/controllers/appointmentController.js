@@ -13,7 +13,7 @@ exports.bookAppointment = async (req, res) => {
         staffId,
         date,
         time,
-        status: "booked",
+        status: "confirmed",
       },
     });
 
@@ -129,7 +129,7 @@ exports.getAvailableSlots = async (req, res) => {
       where: {
         staffId,
         date,
-        status: "booked",
+        status: "confirmed",
       },
     });
 

@@ -1,8 +1,24 @@
 import React, { useState } from "react";
 import { Play, Scissors, Users, MapPin, Mail, Menu, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleBook = () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      navigate("/services"); // logged in
+    } else {
+      navigate("/login"); // not logged in
+    }
+  };
+
+  const handleServices = () => {
+    navigate("/services");
+  };
 
   const galleryItems = [
     {
@@ -93,7 +109,11 @@ const LandingPage = () => {
           </span>
         </div>
         <div className="flex gap-4 uppercase tracking-widest font-medium">
-          <a href="#" className="hover:text-gold-500 transition">
+          <a
+            href="#"
+            className="hover:text-gold-500 transition"
+            onClick={handleBook}
+          >
             Book Now!
           </a>
         </div>
@@ -178,7 +198,10 @@ const LandingPage = () => {
             Hair • Skincare • Nails • Makeup
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <button className="w-full sm:w-auto border border-white px-8 py-4 uppercase text-xs tracking-widest hover:bg-white hover:text-black transition duration-300">
+            <button
+              className="w-full sm:w-auto border border-white px-8 py-4 uppercase text-xs tracking-widest hover:bg-white hover:text-black transition duration-300"
+              onClick={handleBook}
+            >
               Get An Appointment
             </button>
             <button className="flex items-center gap-3 text-xs uppercase tracking-widest group">
@@ -277,6 +300,7 @@ const LandingPage = () => {
             <div
               key={i}
               className="group relative overflow-hidden bg-white shadow-lg cursor-pointer"
+              onClick={handleServices}
             >
               <div className="overflow-hidden h-64 md:h-80">
                 <img
@@ -297,53 +321,6 @@ const LandingPage = () => {
           ))}
         </div>
       </section>
-      <div>
-        <section className="py-16 md:py-24 bg-[#fdfbf7] text-center px-6 md:px-16">
-          <h4 className="italic text-xl md:text-2xl text-gold-500 font-serif mb-2">
-            Welcome
-          </h4>
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 uppercase">
-            Meet Our Staff
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            {[
-              {
-                title: "Hair Styling",
-                img: "https://images.unsplash.com/photo-1595476108010-b4d1f80d77d2?auto=format&fit=crop&q=80&w=500",
-              },
-              {
-                title: "Makeup Artist",
-                img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=500",
-              },
-              {
-                title: "Skin Care",
-                img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=500",
-              },
-            ].map((service, i) => (
-              <div
-                key={i}
-                className="group relative overflow-hidden bg-white shadow-lg cursor-pointer"
-              >
-                <div className="overflow-hidden h-64 md:h-80">
-                  <img
-                    src={service.img}
-                    alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition duration-700 ease-in-out"
-                  />
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm py-6 translate-y-2 group-hover:translate-y-0 transition duration-300">
-                  <h3 className="text-lg font-bold uppercase tracking-widest">
-                    {service.title}
-                  </h3>
-                  <p className="text-gold-500 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Read More +
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
       <div>
         <section className="bg-[#f9f8f6] py-20 px-6 md:px-16">
           <div className="max-w-7xl mx-auto">
