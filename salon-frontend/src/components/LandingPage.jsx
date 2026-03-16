@@ -6,18 +6,39 @@ const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleBook = () => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token;
 
-    if (token) {
-      navigate("/services"); // logged in
+  const handleBook = () => {
+    if (isLoggedIn) {
+      navigate("/services");
     } else {
-      navigate("/login"); // not logged in
+      navigate("/login");
     }
   };
 
   const handleServices = () => {
     navigate("/services");
+  };
+
+  const handleDashboard = () => {
+    navigate("/dashboard");
+  };
+
+  const handleProfile = () => {
+    navigate("/profile");
+  };
+
+  const handleContact = () => {
+    navigate("/contact");
+  };
+
+  
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+    window.location.reload();
   };
 
   const galleryItems = [
@@ -137,26 +158,66 @@ const LandingPage = () => {
 
           {/* Desktop Menu */}
           <ul className="hidden lg:flex gap-8 text-xs uppercase tracking-widest font-semibold">
-            <li>
-              <a href="#" className="text-gold-500">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gold-500">
-                Services
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gold-500">
-                Gallery
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gold-500">
-                Contact
-              </a>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li>
+                  <button
+                    onClick={handleDashboard}
+                    className="hover:text-gold-500"
+                  >
+                    Dashboard
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={handleServices}
+                    className="hover:text-gold-500"
+                  >
+                    Services
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={handleContact}
+                    className="hover:text-gold-500"
+                  >
+                    Contact
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="hover:text-gold-500"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <button
+                    onClick={handleServices}
+                    className="hover:text-gold-500"
+                  >
+                    Services
+                  </button>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-gold-500">
+                    Gallery
+                  </a>
+                </li>
+                <li>
+                  <button
+                    onClick={handleContact}
+                    className="hover:text-gold-500"
+                  >
+                    Contact
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
 
           {/* Mobile Menu Toggle */}
@@ -171,18 +232,21 @@ const LandingPage = () => {
         {/* Mobile Dropdown */}
         {isMenuOpen && (
           <div className="absolute inset-0 z-10 bg-black flex flex-col items-center justify-center gap-8 text-xl uppercase tracking-widest lg:hidden">
-            <a href="#" onClick={() => setIsMenuOpen(false)}>
-              Home
-            </a>
-            <a href="#" onClick={() => setIsMenuOpen(false)}>
-              Services
-            </a>
-            <a href="#" onClick={() => setIsMenuOpen(false)}>
-              Gallery
-            </a>
-            <a href="#" onClick={() => setIsMenuOpen(false)}>
-              Contact
-            </a>
+            {isLoggedIn ? (
+              <>
+                <button onClick={handleDashboard}>Dashboard</button>
+                <button onClick={handleServices}>Services</button>
+                <button onClick={handleContact}>Contact</button>
+                <button onClick={handleProfile}>Profile</button>
+                <button onClick={handleLogout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <button onClick={handleServices}>Services</button>
+                <button>Gallery</button>
+                <button onClick={handleContact}>Contact</button>
+              </>
+            )}
           </div>
         )}
 
@@ -203,12 +267,6 @@ const LandingPage = () => {
               onClick={handleBook}
             >
               Get An Appointment
-            </button>
-            <button className="flex items-center gap-3 text-xs uppercase tracking-widest group">
-              <span className="p-3 bg-gold-500 rounded-full group-hover:scale-110 transition">
-                <Play size={14} fill="white" />
-              </span>
-              Watch Video
             </button>
           </div>
         </div>

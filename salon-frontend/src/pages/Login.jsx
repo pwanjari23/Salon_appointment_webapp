@@ -24,12 +24,17 @@ const Login = () => {
     try {
       const res = await loginUser(formData);
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      const { token, user } = res.data;
 
-    //   alert("Login successful");
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
 
-      navigate("/");
+      // redirect based on role
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       alert(error.response?.data?.message || "Login failed");
     }
@@ -42,7 +47,6 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-[#f3f4f6] flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-4xl rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row h-[600px]">
-
         {/* FORM */}
         <div className="w-full md:w-[45%] p-8 flex flex-col justify-center">
           <div className="mb-6">
@@ -53,7 +57,6 @@ const Login = () => {
           </div>
 
           <form className="space-y-4" onSubmit={handleLogin}>
-
             <div>
               <label className="text-xs text-gray-400">Email</label>
               <input

@@ -11,6 +11,12 @@ router.put(
   authMiddleware,
   appointmentController.cancelAppointment,
 );
+
+router.put(
+  "/confirm/:id",
+  authMiddleware,
+  appointmentController.confirmAppointment,
+);
 router.get("/available-slots", appointmentController.getAvailableSlots);
 
 module.exports = router;

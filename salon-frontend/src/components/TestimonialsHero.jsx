@@ -83,7 +83,7 @@ const TestimonialsHero = () => {
         </p>
 
         <button className="mt-10 bg-black text-white px-8 py-4 rounded-full font-medium flex items-center gap-2 mx-auto hover:bg-zinc-800 transition shadow-lg hover:shadow-xl">
-          Read Success Stories <ArrowRight size={18} />
+          Read Success Stories 
         </button>
       </div>
 

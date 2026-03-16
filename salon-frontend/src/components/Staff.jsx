@@ -15,9 +15,6 @@ const Staff = () => {
           <p className="text-stone-500 max-w-lg mx-auto mb-10 text-lg">
             All-in-one platform to plan, collaborate, and deliver—faster and smarter.
           </p>
-          <button className="bg-black text-white px-8 py-4 rounded-full font-medium flex items-center gap-2 mx-auto hover:scale-105 transition-transform">
-            Get started for Free <ArrowRight size={18} />
-          </button>
         </div>
 
         {/* 3D Perspective Gallery */}

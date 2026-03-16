@@ -65,7 +65,21 @@ exports.bookAppointment = async (req, res) => {
 exports.getAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.findAll({
-      where: { userId: req.user.id },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "name", "email"],
+        },
+        {
+          model: Service,
+          attributes: ["id", "name"],
+        },
+        {
+          model: Staff,
+          attributes: ["id", "name"],
+        },
+      ],
+      order: [["date", "DESC"]],
     });
 
     res.json(appointments);
@@ -87,8 +101,13 @@ exports.cancelAppointment = async (req, res) => {
       });
     }
 
-    appointment.status = "cancelled";
+    if (appointment.status === "cancelled") {
+      return res.status(400).json({
+        message: "Appointment already cancelled",
+      });
+    }
 
+    appointment.status = "cancelled";
     await appointment.save();
 
     res.json({
@@ -141,6 +160,32 @@ exports.getAvailableSlots = async (req, res) => {
 
     res.json({
       availableSlots,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error,
+    });
+  }
+};
+
+exports.confirmAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findByPk(req.params.id);
+
+    if (!appointment) {
+      return res.status(404).json({
+        message: "Appointment not found",
+      });
+    }
+
+    appointment.status = "confirmed";
+
+    await appointment.save();
+
+    res.json({
+      message: "Appointment confirmed",
+      appointment,
     });
   } catch (error) {
     res.status(500).json({

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import HorizontalCalendar from "../components/HorizontalCalendar";
 import { Navigate, useNavigate } from "react-router-dom";
+import { load } from "@cashfreepayments/cashfree-js";
 
 const ServicesPage = () => {
   const [step, setStep] = useState(1);
@@ -24,6 +25,7 @@ const ServicesPage = () => {
   const [selectedDate, setSelectedDate] = useState("");
 
   const [availableSlots, setAvailableSlots] = useState([]);
+  const [cashfree, setCashfree] = useState(null);
 
   const API = "http://localhost:5000/api";
 
@@ -93,6 +95,7 @@ const ServicesPage = () => {
       const token = localStorage.getItem("token");
       const user = JSON.parse(localStorage.getItem("user"));
 
+      // 1️⃣ Create Appointment (status should be pending)
       const appointmentRes = await axios.post(
         `${API}/appointments`,
         {
@@ -110,18 +113,49 @@ const ServicesPage = () => {
 
       const appointment = appointmentRes.data.appointment;
 
-      await axios.post(`${API}/payments/create-order`, {
+      // 2️⃣ Create Cashfree Order
+      const orderRes = await axios.post(`${API}/payments/create-order`, {
         appointmentId: appointment.id,
         amount: selectedService.price,
         email: user.email,
         phone: user.phone,
       });
 
-      window.location.href = "/";
+      const { paymentSessionId, orderId } = orderRes.data;
+
+      // 3️⃣ Open Cashfree Popup
+      const result = await cashfree.checkout({
+        paymentSessionId,
+        redirectTarget: "_modal",
+      });
+
+      // 4️⃣ If user cancelled
+      if (result?.error) {
+        alert("Payment cancelled");
+        return;
+      }
+
+      // 5️⃣ If payment success
+      if (result?.paymentDetails?.paymentMessage === "Payment successful") {
+        await axios.post(`${API}/payments/verify-payment`, {
+          orderId: orderId,
+        });
+
+        navigate("/booking-success", { replace: true });
+      }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const init = async () => {
+      const cf = await load({ mode: "sandbox" });
+      setCashfree(cf);
+    };
+
+    init();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white font-['Inter',sans-serif] text-slate-900 antialiased">

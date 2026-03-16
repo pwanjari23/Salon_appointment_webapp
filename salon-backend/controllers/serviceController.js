@@ -11,15 +11,9 @@ exports.createService = async (req, res) => {
       price,
     });
 
-    res.status(201).json({
-      message: "Service created",
-      service,
-    });
+    res.status(201).json(service);
   } catch (error) {
-    res.status(500).json({
-      message: "Server error",
-      error,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
