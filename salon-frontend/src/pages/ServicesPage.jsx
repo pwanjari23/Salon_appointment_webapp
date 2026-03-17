@@ -8,6 +8,8 @@ import {
   Star,
   ShieldCheck,
   User,
+  Calendar,
+  Clock,
 } from "lucide-react";
 import HorizontalCalendar from "../components/HorizontalCalendar";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -28,6 +30,10 @@ const ServicesPage = () => {
   const [cashfree, setCashfree] = useState(null);
 
   const API = "http://localhost:5000/api";
+
+  const handleBack = () => {
+    navigate("/");
+  };
 
   useEffect(() => {
     fetchServices();
@@ -178,7 +184,10 @@ const ServicesPage = () => {
           <span className={step >= 4 ? "text-black" : ""}>Confirm</span>
         </div>
 
-        <button className="p-2 hover:bg-slate-50 rounded-full">
+        <button
+          className="p-2 hover:bg-slate-50 rounded-full"
+          onClick={handleBack}
+        >
           <X size={20} />
         </button>
       </header>
@@ -207,10 +216,10 @@ const ServicesPage = () => {
                     <div>
                       <h4 className="font-bold text-lg">{service.name}</h4>
                       <p className="text-slate-400 text-sm mt-1">
-                        {service.duration}
+                        {service.duration} min
                       </p>
                       <p className="font-bold text-indigo-600 mt-4">
-                        ₹{service.price}
+                        ₹{service.price}/- onwards
                       </p>
                     </div>
 
@@ -254,8 +263,8 @@ const ServicesPage = () => {
 
                       <div>
                         <h4 className="font-bold">{staff.name}</h4>
-                        <p className="text-slate-400 text-xs">
-                          {staff.specialty}
+                        <p className="text-slate-500 text-xs">
+                          {staff.specialization}
                         </p>
                       </div>
                     </div>
@@ -303,12 +312,33 @@ const ServicesPage = () => {
           {step === 4 && (
             <div>
               <h1 className="text-[32px] font-bold tracking-tight mb-8">
-                Confirm Booking
+                Review and confirm
               </h1>
+              <h2 className="text-xl font-bold mb-4">More details</h2>
+
+              {/* Cancellation Policy Card */}
+              <div className="bg-white rounded-2xl border border-[#E6D5C3] p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    {/* Optional Icon for extra aesthetic touch */}
+                    <h3 className="text-lg font-bold text-[#4A3728]">
+                      Cancellation policy
+                    </h3>
+                  </div>
+
+                  <p className="text-[#7D6E63] leading-relaxed">
+                    Please cancel at least{" "}
+                    <span className="font-bold text-[#3E2723]">
+                      24 hours before
+                    </span>{" "}
+                    appointment.
+                  </p>
+                </div>
+              </div>
 
               <button
                 onClick={bookAppointment}
-                className="bg-black text-white px-6 py-4 rounded-xl"
+                className="bg-black text-white px-6 py-4 rounded-xl mt-4"
               >
                 Confirm Appointment
               </button>
@@ -318,27 +348,83 @@ const ServicesPage = () => {
 
         {/* RIGHT SIDEBAR */}
         <div className="lg:col-span-4">
-          <div className="sticky top-24 bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
-            <h4 className="font-bold mb-4">Summary</h4>
+          <div className="sticky top-24 bg-white border border-gray-100 rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] text-[#1a1a1a]">
+            {/* Business Header */}
+            <div className="flex gap-4 mb-6">
+              <div className="w-16 h-16 rounded-xl border border-gray-100 flex-shrink-0 overflow-hidden">
+                <img
+                  src="https://via.placeholder.com/64"
+                  alt="Studio Logo"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <h3 className="font-bold text-lg leading-tight">
+                  Alchemic Beauty Studio Pune
+                </h3>
+                <div className="flex items-center gap-1 mt-1">
+                  <span className="font-bold text-sm">4.9</span>
+                  <div className="flex text-orange-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} fill="currentColor" />
+                    ))}
+                  </div>
+                  <span className="text-gray-400 text-sm">(326)</span>
+                </div>
+                <p className="text-gray-400 text-[11px] mt-1 line-clamp-1">
+                  CHAMBERS 63, FLAT 504, 5TH FLOOR...
+                </p>
+              </div>
+            </div>
 
-            {selectedService && (
-              <p className="text-sm">
-                Service: <b>{selectedService.name}</b>
-              </p>
-            )}
+            {/* Date & Time Section */}
+            <div className="space-y-3 mb-6 border-b border-gray-100 pb-6">
+              <div className="flex items-center gap-3 text-gray-600">
+                <Calendar size={18} className="text-gray-400" />
+                <span className="text-sm font-medium">
+                  {selectedTime ? "Tuesday, 17 March" : "Select a date"}
+                </span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-600">
+                <Clock size={18} className="text-gray-400" />
+                <span className="text-sm font-medium">
+                  {selectedTime || "Select a time"}{" "}
+                  {selectedService &&
+                    `(${selectedService.duration || "1 hr"} duration)`}
+                </span>
+              </div>
+            </div>
 
-            {selectedStaff && (
-              <p className="text-sm">
-                Staff: <b>{selectedStaff.name}</b>
-              </p>
-            )}
+            {/* Service Details */}
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h4 className="font-bold uppercase text-sm tracking-tight">
+                  {selectedService?.name || "No Service Selected"}
+                </h4>
+                <p className="text-gray-500 text-sm mt-0.5">
+                  {selectedStaff?.name}
+                </p>
+              </div>
+              {/* <span className="font-bold">₹{subtotal.toLocaleString()}</span> */}
+            </div>
 
-            {selectedTime && (
-              <p className="text-sm">
-                Time: <b>{selectedTime}</b>
-              </p>
-            )}
+            {/* Price Breakdown */}
+            <div className="space-y-2 border-t border-gray-100 pt-6 mb-6">
+              <div className="flex justify-between text-gray-500 text-sm font-medium">
+                <span>Subtotal</span>
+                <span>₹{selectedService?.price}</span>
+              </div>
+            </div>
 
+            {/* Total */}
+            <div className="flex justify-between items-center mb-8">
+              <span className="font-bold text-lg">Total</span>
+              <span className="font-bold text-xl">
+                ₹{selectedService?.price}
+              </span>
+            </div>
+
+            {/* Action Button */}
             <button
               onClick={handleContinue}
               disabled={
@@ -346,12 +432,13 @@ const ServicesPage = () => {
                 (step === 2 && !selectedStaff) ||
                 (step === 3 && !selectedTime)
               }
-              className="w-full bg-black text-white py-4 rounded-xl font-bold mt-6"
+              className="w-full bg-[#0a0a0a] text-white py-4 rounded-[18px] font-bold text-lg hover:bg-gray-900 transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.98]"
             >
-              {step === 4 ? "Confirm Booking" : "Continue"}
+              {step === 4 ? "Confirm" : "Continue"}
             </button>
 
-            <div className="mt-8 flex items-center justify-center gap-2 text-[9px] text-slate-300 font-black uppercase tracking-[0.2em]">
+            {/* Security Badge */}
+            <div className="mt-6 flex items-center justify-center gap-2 text-[10px] text-gray-300 font-bold uppercase tracking-widest">
               <ShieldCheck size={14} />
               <span>Secure Booking</span>
             </div>

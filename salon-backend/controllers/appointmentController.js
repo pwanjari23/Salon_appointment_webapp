@@ -194,3 +194,41 @@ exports.confirmAppointment = async (req, res) => {
     });
   }
 };
+
+exports.getMyAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.findAll({
+      where: {
+        userId: req.user.id, 
+      },
+      include: [
+        {
+          model: Service,
+          attributes: ["id", "name"],
+        },
+        {
+          model: Staff,
+          attributes: ["id", "name"],
+        },
+      ],
+      order: [["date", "DESC"]],
+    });
+
+    // auto update status
+    const today = new Date();
+
+    for (let apt of appointments) {
+      if (new Date(apt.date) < today && apt.status !== "completed") {
+        apt.status = "completed";
+        await apt.save();
+      }
+    }
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};

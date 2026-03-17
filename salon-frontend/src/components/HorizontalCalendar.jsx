@@ -26,18 +26,18 @@ const HorizontalCalendar = ({ selectedDate, setSelectedDate }) => {
                   ${
                     isSelected
                       ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 scale-110"
-                      : "bg-white text-slate-900 border border-slate-100 hover:border-slate-300"
+                      : "bg-white text-slate-900 border border-slate-300"
                   }
                 `}
               >
                 {format(day, "d")}
 
                 {/* Optional % Badge */}
-                {!isSelected && (
+                {/* {!isSelected && (
                   <span className="absolute top-0 right-0 bg-green-600 text-white text-[10px] w-6 h-6 rounded-full flex items-center justify-center border-4 border-white">
                     %
                   </span>
-                )}
+                )} */}
               </button>
               <span
                 className={`text-sm font-bold uppercase tracking-tighter ${isSelected ? "text-indigo-600" : "text-slate-400"}`}

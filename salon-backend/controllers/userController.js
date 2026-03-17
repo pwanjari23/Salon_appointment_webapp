@@ -20,7 +20,7 @@ exports.getProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { name, phone } = req.body;
+    const { name, email, phone } = req.body;
 
     const user = await User.findByPk(req.user.id);
 
@@ -32,6 +32,7 @@ exports.updateProfile = async (req, res) => {
 
     user.name = name || user.name;
     user.phone = phone || user.phone;
+    user.email = email || user.email;
 
     await user.save();
 
@@ -47,3 +48,34 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+// exports.getMyAppointments = async (req, res) => {
+//   try {
+//     const appointments = await Appointment.findAll({
+//       where: {
+//         userId: req.user.id, // ✅ FILTER BY USER
+//       },
+//       include: [
+//         {
+//           model: User,
+//           attributes: ["id", "name", "email"],
+//         },
+//         {
+//           model: Service,
+//           attributes: ["id", "name"],
+//         },
+//         {
+//           model: Staff,
+//           attributes: ["id", "name"],
+//         },
+//       ],
+//       order: [["date", "DESC"]],
+//     });
+
+//     res.json(appointments);
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Server error",
+//       error,
+//     });
+//   }
+// };

@@ -11,6 +11,7 @@ import ServicesPage from "./pages/ServicesPage";
 import BookingSuccess from "./pages/BookingSuccess";
 import AdminPanel from "./pages/AdminPanel";
 import AdminRoute from "./routes/AdminRoute";
+import UserProfile from "./pages/UserProfile";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/services" element={<ServicesPage />} />
       <Route path="/booking-success" element={<BookingSuccess />} />
+      <Route path="/userprofile" element={<UserProfile />} />
       <Route
         path="/admin"
         element={

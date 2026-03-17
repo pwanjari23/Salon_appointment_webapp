@@ -162,9 +162,7 @@ const AdminPanel = () => {
     <div className="flex flex-col h-full bg-white p-6">
       <div className="mb-10 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-serif italic font-bold text-rose-600">
-            Lumière
-          </h1>
+          <h1 className="text-2xl font-serif font-extrabold ">FYNA</h1>
           <p className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mt-1">
             Professional Admin
           </p>
@@ -188,7 +186,7 @@ const AdminPanel = () => {
             }}
             className={`w-full flex items-center space-x-3 px-4 py-3.5 rounded-2xl transition-all ${
               activeTab === item.id
-                ? "bg-rose-50 text-rose-600"
+                ? "bg-rose-50 text-amber-800"
                 : "text-stone-500 hover:bg-stone-50"
             }`}
           >
@@ -241,7 +239,7 @@ const AdminPanel = () => {
                 setFormData({});
                 setShowModal(true);
               }}
-              className="flex items-center space-x-2 bg-rose-600 text-white px-6 py-2 rounded-full"
+              className="flex items-center space-x-2 bg-amber-900 text-white px-6 py-2 rounded-full"
             >
               <Plus size={18} />
               <span>Add {activeTab.slice(0, -1)}</span>
@@ -272,7 +270,14 @@ const AdminPanel = () => {
 
                     <div>
                       <p className="font-bold text-sm">
-                        {item.User?.name || item.name}
+                        {activeTab === "staff"
+                          ? `${item.name} - ${item.specialization}`
+                          : item.User?.name || item.name}
+                      </p>
+                      <p className="text-xs">
+                        {activeTab === "staff"
+                          ? `${item.phone} - ${item.email}`
+                          : item.User?.name || item.name}
                       </p>
 
                       <p className="text-xs text-stone-400">
@@ -291,7 +296,7 @@ const AdminPanel = () => {
                         {item.status !== "cancelled" && (
                           <button
                             onClick={() => handleCancelAppointment(item.id)}
-                            className="px-3 py-1 text-xs rounded-full bg-red-50 text-red-600 hover:bg-red-100"
+                            className="px-3 py-1 text-xs rounded-full bg-red-50 text-amber-900 hover:bg-red-100"
                           >
                             Cancel
                           </button>
@@ -299,15 +304,24 @@ const AdminPanel = () => {
 
                         <span
                           className={`px-3 py-1 rounded-full text-xs
-        ${
-          item.status === "cancelled"
-            ? "bg-red-50 text-red-600"
-            : item.status === "confirmed"
-              ? "bg-emerald-50 text-emerald-600"
-              : "bg-yellow-50 text-yellow-600"
-        }`}
+                             ${
+                               item.status === "cancelled"
+                                 ? "bg-red-50 text-amber-900"
+                                 : item.status === "confirmed"
+                                   ? "bg-emerald-50 text-emerald-600"
+                                   : "bg-yellow-50 text-yellow-600"
+                             }`}
                         >
                           {item.status || "pending"}
+                        </span>
+                        <span className="ml-auto px-3 py-1 rounded-full text-xs whitespace-nowrap">
+                          {new Date(item.createdAt).toLocaleString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </span>
                       </>
                     )}
@@ -328,7 +342,7 @@ const AdminPanel = () => {
 
                         <button
                           onClick={() => handleDelete(item.id)}
-                          className="p-2 hover:bg-red-50 rounded text-red-500"
+                          className="p-2 hover:bg-red-50 rounded text-amber-600"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -358,7 +372,7 @@ const AdminPanel = () => {
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
                   className={`px-3 py-1 rounded
-          ${currentPage === i + 1 ? "bg-rose-600 text-white" : "border"}`}
+          ${currentPage === i + 1 ? "bg-amber-900 text-white" : "border"}`}
                 >
                   {i + 1}
                 </button>
@@ -496,7 +510,7 @@ const AdminPanel = () => {
                   await handleSubmit();
                   setShowModal(false);
                 }}
-                className="px-4 py-2 bg-rose-600 text-white rounded-xl"
+                className="px-4 py-2 bg-amber-900 text-white rounded-xl"
               >
                 {editingId ? "Update" : "Create"}
               </button>

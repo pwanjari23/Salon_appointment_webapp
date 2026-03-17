@@ -21,12 +21,8 @@ const LandingPage = () => {
     navigate("/services");
   };
 
-  const handleDashboard = () => {
-    navigate("/dashboard");
-  };
-
   const handleProfile = () => {
-    navigate("/profile");
+    navigate("/userprofile");
   };
 
   const handleContact = () => {
@@ -162,10 +158,10 @@ const LandingPage = () => {
               <>
                 <li>
                   <button
-                    onClick={handleDashboard}
+                    onClick={handleProfile}
                     className="hover:text-gold-500"
                   >
-                    Dashboard
+                    Profile
                   </button>
                 </li>
                 <li>
@@ -182,14 +178,6 @@ const LandingPage = () => {
                     className="hover:text-gold-500"
                   >
                     Contact
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    className="hover:text-gold-500"
-                  >
-                    Logout
                   </button>
                 </li>
               </>
@@ -234,11 +222,10 @@ const LandingPage = () => {
           <div className="absolute inset-0 z-10 bg-black flex flex-col items-center justify-center gap-8 text-xl uppercase tracking-widest lg:hidden">
             {isLoggedIn ? (
               <>
-                <button onClick={handleDashboard}>Dashboard</button>
                 <button onClick={handleServices}>Services</button>
                 <button onClick={handleContact}>Contact</button>
                 <button onClick={handleProfile}>Profile</button>
-                <button onClick={handleLogout}>Logout</button>
+                {/* <button onClick={handleLogout}>Logout</button> */}
               </>
             ) : (
               <>
@@ -258,7 +245,7 @@ const LandingPage = () => {
           <h1 className="text-4xl md:text-7xl font-bold max-w-3xl leading-tight uppercase mb-4">
             Beauty Salon <br /> Fashion For Woman
           </h1>
-          <p className="text-gray-300 tracking-[0.2em] uppercase text-xs md:text-sm mb-8">
+          <p className="text-gray-300 tracking-[0.2em] uppercase text-xs md:text-sm mb-4">
             Hair • Skincare • Nails • Makeup
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">

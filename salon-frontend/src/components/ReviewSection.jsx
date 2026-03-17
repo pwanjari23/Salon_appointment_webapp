@@ -14,8 +14,7 @@ const ReviewSection = () => {
           <div className="text-center">
             <h4 className="font-bold text-gray-800">Good Services!</h4>
             <p className="text-gray-500 text-xs mt-4 italic leading-relaxed">
-              "Lorem ipsum is simply dummy text of the printing and typesetting
-              industry."
+              "The staff was friendly and service was really satisfying"
             </p>
             <div className="flex justify-center gap-1 text-yellow-400 mt-4">
               {[...Array(5)].map((_, i) => (
@@ -30,7 +29,7 @@ const ReviewSection = () => {
           <Quote size={40} className="opacity-50" />
           <div>
             <h3 className="text-xl font-medium leading-snug">
-              "Direct yet Friendly Tone"
+              Professional team, excellent styling results
             </h3>
             <p className="text-xs text-gray-400 mt-4 uppercase tracking-widest">
               Merry Vane — CEO
@@ -52,7 +51,7 @@ const ReviewSection = () => {
           <div>
             <h4 className="font-bold text-sm italic">I really appreciate!!</h4>
             <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Service was good but waiting time could be improved.
             </p>
           </div>
         </div>
@@ -65,8 +64,7 @@ const ReviewSection = () => {
               <Quote size={20} />
             </div>
             <p className="text-lg font-semibold leading-tight">
-              "When an unknown printer took a galley of type and scrambled it to
-              make a type specimen book."
+              "Loved my haircut, stylist understood exactly what I wanted."
             </p>
             <div className="flex items-center gap-3 mt-8">
               <img
@@ -85,8 +83,7 @@ const ReviewSection = () => {
           <div className="text-center">
             <h4 className="font-bold text-gray-800">Good Services!</h4>
             <p className="text-gray-500 text-xs mt-4 italic leading-relaxed">
-              "Lorem ipsum is simply dummy text of the printing and typesetting
-              industry."
+              "Great experience overall, the salon was clean and staff were highly professional"
             </p>
             <div className="flex justify-center gap-1 text-yellow-400 mt-4">
               {[...Array(5)].map((_, i) => (
@@ -100,7 +97,7 @@ const ReviewSection = () => {
           <Quote size={40} className="opacity-50" />
           <div>
             <h3 className="text-xl font-medium leading-snug">
-              "Direct yet Friendly Tone"
+              Loved the facial, very relaxing
             </h3>
             <p className="text-xs text-gray-400 mt-4 uppercase tracking-widest">
               Merry Vane — CEO
@@ -122,7 +119,7 @@ const ReviewSection = () => {
           <div>
             <h4 className="font-bold text-sm italic">I really appreciate!!</h4>
             <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+             The ambiance was शांत and relaxing, making the whole experience very enjoyable
             </p>
           </div>
         </div>
@@ -135,8 +132,7 @@ const ReviewSection = () => {
               <Quote size={20} />
             </div>
             <p className="text-lg font-semibold leading-tight">
-              "When an unknown printer took a galley of type and scrambled it to
-              make a type specimen book."
+              "Very clean and hygienic place with polite staff and excellent customer service."
             </p>
             <div className="flex items-center gap-3 mt-8">
               <img
