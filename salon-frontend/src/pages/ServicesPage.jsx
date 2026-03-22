@@ -145,7 +145,7 @@ const ServicesPage = () => {
       // 5️⃣ If payment success
 
       console.log(result.paymentDetails, "result.paymentDetails")
-      if (result?.paymentDetails?.paymentMessage === "Payment successful") {
+      if (result?.paymentDetails?.paymentMessage === "Payment finished. Check status.") {
         await axios.post(`${API}/payments/verify-payment`, {
           orderId: orderId,
         });
