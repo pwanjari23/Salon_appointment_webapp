@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "http://3.89.139.86:5000",
 });
 
 // ✅ GET PROFILE
@@ -35,7 +35,7 @@ export const cancelAppointment = async (id) => {
   const token = localStorage.getItem("token");
 
   return axios.put(
-    `http://localhost:5000/api/appointments/cancel/${id}`,
+    `http://3.89.139.86:5000/api/appointments/cancel/${id}`,
     {},
     {
       headers: {

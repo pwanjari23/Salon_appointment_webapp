@@ -29,7 +29,7 @@ const ServicesPage = () => {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [cashfree, setCashfree] = useState(null);
 
-  const API = "http://localhost:5000/api";
+  const API = "http://3.89.139.86:5000/api";
 
   const handleBack = () => {
     navigate("/");
