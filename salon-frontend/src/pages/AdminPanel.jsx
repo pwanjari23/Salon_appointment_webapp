@@ -11,6 +11,7 @@ import {
   X,
   ChevronRight,
   Bell,
+  LogOut,
 } from "lucide-react";
 
 import {
@@ -156,6 +157,15 @@ const AdminPanel = () => {
     setFormData(item);
   };
 
+  const handleLogout = () => {
+    // Clear auth data (adjust based on what you're storing)
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    // Redirect to login page
+    window.location.href = "/login";
+  };
+
   /* SIDEBAR */
 
   const SidebarContent = () => (
@@ -195,6 +205,22 @@ const AdminPanel = () => {
           </button>
         ))}
       </nav>
+
+      <div className="mt-auto">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-2xl 
+     text-slate-400 bg-rose-50
+    transition-all duration-300 group"
+        >
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-xl bg-white shadow-sm group-hover:scale-105 transition">
+              <LogOut size={18} className="text-slate-500" />
+            </div>
+            <span className="text-sm font-semibold text-slate-500">Logout</span>
+          </div>
+        </button>
+      </div>
     </div>
   );
 
