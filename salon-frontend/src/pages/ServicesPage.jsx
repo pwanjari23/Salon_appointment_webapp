@@ -129,6 +129,7 @@ const ServicesPage = () => {
 
       const { paymentSessionId, orderId } = orderRes.data;
 
+      console.log("paymentSessionId", paymentSessionId)
       // 3️⃣ Open Cashfree Popup
       const result = await cashfree.checkout({
         paymentSessionId,
@@ -142,6 +143,8 @@ const ServicesPage = () => {
       }
 
       // 5️⃣ If payment success
+
+      console.log(result.paymentDetails, "result.paymentDetails")
       if (result?.paymentDetails?.paymentMessage === "Payment successful") {
         await axios.post(`${API}/payments/verify-payment`, {
           orderId: orderId,
